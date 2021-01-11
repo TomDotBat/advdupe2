@@ -19,14 +19,16 @@ AddCSLuaFile "advdupe2/sh_netstream.lua"
 AddCSLuaFile "advdupe2/cl_file.lua"
 AddCSLuaFile "advdupe2/cl_ghost.lua"
 
-function AdvDupe2.Notify(ply,msg,typ, showsvr, dur)
-	umsg.Start("AdvDupe2Notify",ply)
-		umsg.String(msg)
-		umsg.Char(typ or NOTIFY_GENERIC)
-		umsg.Char(dur or 5)
-	umsg.End()
-	if(showsvr==true)then
-		print("[AdvDupe2Notify]\t"..ply:Nick()..": "..msg)
+util.AddNetworkString("AdvDupe2.Notify")
+function AdvDupe2.Notify(ply, msg, typ, showsvr, duration)
+	net.Start("AdvDupe2.Notify")
+		net.WriteString(msg)
+		net.WriteUInt(typ or NOTIFY_GENERIC or 0, 3)
+		net.WriteUInt(duration, 5)
+	net.Send(ply)
+
+	if (showsvr == true) then
+		print("[AdvDupe2] " .. ply:Nick() .. ": " .. msg)
 	end
 end
 
@@ -54,7 +56,7 @@ function(cvar, preval, newval)
 	if(newval~=nil and newval>0)then
 		AdvDupe2.SpawnRate = newval
 	else
-		print("[AdvDupe2Notify]\tINVALID SPAWN RATE")
+		print("[AdvDupe2] INVALID SPAWN RATE")
 	end
 end)
 	
@@ -63,19 +65,19 @@ local function PasteMap()
 	local filename = GetConVarString("AdvDupe2_MapFileName")
 	
 	if(not filename or filename == "")then
-		print("[AdvDupe2Notify]\tInvalid file name to loap map save.")
+		print("[AdvDupe2] Invalid file name to loap map save.")
 		return
 	end
 	
 	if(not file.Exists("advdupe2_maps/"..filename..".txt", "DATA"))then
-		print("[AdvDupe2Notify]\tFile does not exist for a map save.")
+		print("[AdvDupe2] File does not exist for a map save.")
 		return
 	end
 	
 	local map = file.Read("advdupe2_maps/"..filename..".txt")
 	local success,dupe,info,moreinfo = AdvDupe2.Decode(map) 
 	if not success then
-		print("[AdvDupe2Notify]\tCould not open map save "..dupe)
+		print("[AdvDupe2] Could not open map save "..dupe)
 		return
 	end	
 	
@@ -113,7 +115,7 @@ local function PasteMap()
 		end
 	end
 	
-	print("[AdvDupe2Notify]\tMap save pasted.")
+	print("[AdvDupe2] Map save pasted.")
 end
 
 util.AddNetworkString("AdvDupe2_SetDupeInfo")
@@ -127,7 +129,7 @@ hook.Add("Initialize", "AdvDupe2_CheckServerSettings",function()
 	AdvDupe2.SpawnRate = tonumber(GetConVarString("AdvDupe2_SpawnRate"))
 	if not AdvDupe2.SpawnRate or AdvDupe2.SpawnRate <= 0 then
 		AdvDupe2.SpawnRate = 1
-		print("[AdvDupe2Notify]\tINVALID SPAWN RATE DEFAULTING VALUE")
+		print("[AdvDupe2] INVALID SPAWN RATE DEFAULTING VALUE")
 	end
 end)
 

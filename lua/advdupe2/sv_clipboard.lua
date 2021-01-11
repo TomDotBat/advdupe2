@@ -1468,14 +1468,14 @@ local function ErrorCatchSpawning()
 			-- PUT ERROR LOGGING HERE
 
 			if (not AdvDupe2.JobManager.Queue) then
-				print("[AdvDupe2Notify]\t" .. error)
+				print("[AdvDupe2] " .. error)
 				AdvDupe2.JobManager.Queue = {}
 				return
 			end
 
 			local Queue = AdvDupe2.JobManager.Queue[AdvDupe2.JobManager.CurrentPlayer]
 			if (not Queue) then
-				print("[AdvDupe2Notify]\t" .. error)
+				print("[AdvDupe2] " .. error)
 				return
 			end
 
@@ -1495,7 +1495,7 @@ local function ErrorCatchSpawning()
 					end
 				end
 			else
-				print("[AdvDupe2Notify]\t" .. error)
+				print("[AdvDupe2] " .. error)
 			end
 
 			for k, v in pairs(Queue.CreatedEntities) do
@@ -1558,10 +1558,10 @@ function AdvDupe2.InitPastingQueue(Player, PositionOffset, AngleOffset, OrigPos,
 
 	if (Player.AdvDupe2.Name) then
 		print(
-			"[AdvDupe2NotifyPaste]\t Player: " .. Player:Nick() .. " Pasted File, " .. Player.AdvDupe2.Name .. " with, " ..
+			"[AdvDupe2] Player: " .. Player:Nick() .. " Pasted File, " .. Player.AdvDupe2.Name .. " with, " ..
 				#Queue.SortedEntities .. " Entities and " .. #Player.AdvDupe2.Constraints .. " Constraints.")
 	else
-		print("[AdvDupe2NotifyPaste]\t Player: " .. Player:Nick() .. " Pasted, " .. #Queue.SortedEntities ..
+		print("[AdvDupe2] Player: " .. Player:Nick() .. " Pasted, " .. #Queue.SortedEntities ..
 						" Entities and " .. #Player.AdvDupe2.Constraints .. " Constraints.")
 	end
 

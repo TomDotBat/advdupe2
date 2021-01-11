@@ -17,14 +17,13 @@ include "advdupe2/sh_netstream.lua"
 include "advdupe2/cl_file.lua"
 include "advdupe2/cl_ghost.lua"
 
-function AdvDupe2.Notify(msg,typ,dur)
+function AdvDupe2.Notify(msg, typ, duration)
 	surface.PlaySound(typ == 1 and "buttons/button10.wav" or "ambient/water/drip1.wav")
-	GAMEMODE:AddNotify(msg, typ or NOTIFY_GENERIC, dur or 5)
-	//if not game.SinglePlayer() then
-		print("[AdvDupe2Notify]\t"..msg)
-	//end
+	notification.AddLegacy(msg, typ or NOTIFY_GENERIC, duration or 5)
+
+	print("[AdvDupe2] " .. msg)
 end
 
-usermessage.Hook("AdvDupe2Notify",function(um)
-	AdvDupe2.Notify(um:ReadString(),um:ReadChar(),um:ReadChar())
+net.Receive("AdvDupe2.Notify", function()
+	AdvDupe2.Notify(net.ReadString(), net.ReadUInt(3), net.ReadUInt(5))
 end)
