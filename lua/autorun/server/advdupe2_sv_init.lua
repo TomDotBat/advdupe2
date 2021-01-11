@@ -24,7 +24,7 @@ function AdvDupe2.Notify(ply, msg, typ, showsvr, duration, consoleOnly)
 	net.Start("AdvDupe2.Notify")
 		net.WriteString(msg)
 		net.WriteUInt(typ or NOTIFY_GENERIC or 0, 3)
-		net.WriteUInt(duration, 5)
+		net.WriteUInt(duration or 5, 5)
 		net.WriteBool(consoleOnly or false)
 	net.Send(ply)
 
