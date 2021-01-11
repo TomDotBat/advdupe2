@@ -789,15 +789,11 @@ local function DoGenericPhysics(Entity, data, Player)
 end
 
 local function reportclass(ply, class)
-	umsg.Start("AdvDupe2_ReportClass", ply)
-	umsg.String(class)
-	umsg.End()
+	AdvDupe2.Notify(ply, "Advanced Duplicator 2: Invalid Class: " .. class, 0, false, false, true)
 end
 
 local function reportmodel(ply, model)
-	umsg.Start("AdvDupe2_ReportModel", ply)
-	umsg.String(model)
-	umsg.End()
+	AdvDupe2.Notify(ply, "Advanced Duplicator 2: Invalid Model: " .. model, 0, false, false, true)
 end
 
 --[[

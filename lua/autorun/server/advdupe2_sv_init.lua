@@ -20,11 +20,12 @@ AddCSLuaFile "advdupe2/cl_file.lua"
 AddCSLuaFile "advdupe2/cl_ghost.lua"
 
 util.AddNetworkString("AdvDupe2.Notify")
-function AdvDupe2.Notify(ply, msg, typ, showsvr, duration)
+function AdvDupe2.Notify(ply, msg, typ, showsvr, duration, consoleOnly)
 	net.Start("AdvDupe2.Notify")
 		net.WriteString(msg)
 		net.WriteUInt(typ or NOTIFY_GENERIC or 0, 3)
 		net.WriteUInt(duration, 5)
+		net.WriteBool(consoleOnly or false)
 	net.Send(ply)
 
 	if (showsvr == true) then

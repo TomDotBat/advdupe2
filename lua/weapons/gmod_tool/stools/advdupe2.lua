@@ -1734,14 +1734,6 @@ if(CLIENT)then
 		RunConsoleCommand("advdupe2_paste_disparents","0")
 	end)
 
-	usermessage.Hook("AdvDupe2_ReportModel",function(um)
-		print("Advanced Duplicator 2: Invalid Model: "..um:ReadString())
-	end)
-
-	usermessage.Hook("AdvDupe2_ReportClass",function(um)
-		print("Advanced Duplicator 2: Invalid Class: "..um:ReadString())
-	end)
-
 	usermessage.Hook("AdvDupe2_ResetDupeInfo", function(um)
 		if not AdvDupe2.Info then return end
 		AdvDupe2.Info.File:SetText("File:")
